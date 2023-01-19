@@ -1,7 +1,11 @@
 package edu.bu.cs633.minimalsearchengine;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
 public class MainApplication {
     public static void main( String[] args ) {
-        System.out.println( "Hello from Minimal Search Engine app!" );
+        SpringApplication.run(MainApplication.class);
     }
 }
