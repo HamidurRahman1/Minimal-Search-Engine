@@ -19,8 +19,10 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.version>11</maven.compiler.version>
     <java.version>11</java.version>
-    <mysql.version>8.0.16</mysql.version>
+
+    <mysql.version>8.0.28</mysql.version>
     <h2.version>1.4.200</h2.version>
     <jsoup.version>1.15.3</jsoup.version>
     <urldetector.version>0.1.17</urldetector.version>

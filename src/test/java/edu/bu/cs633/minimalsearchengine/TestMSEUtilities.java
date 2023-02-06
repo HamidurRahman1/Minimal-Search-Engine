@@ -6,6 +6,10 @@ import edu.bu.cs633.minimalsearchengine.utils.Utilities;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+import java.net.ProtocolException;
+import java.net.UnknownHostException;
+
 public class TestMSEUtilities {
 
     @Test(expectedExceptions = ConstraintViolationException.class)
@@ -33,6 +37,27 @@ public class TestMSEUtilities {
     public void noCleanWordsTest() {
 
         Assert.assertEquals(Utilities.cleanWordsFromQuery("some other").size(), 0);
+
+    }
+
+    @Test(expectedExceptions = ProtocolException.class)
+    public void urlWithInvalidProtocolTest() throws IOException {
+
+        Assert.assertFalse(Utilities.isValidURL("random://google.con"));
+
+    }
+
+    @Test(expectedExceptions = UnknownHostException.class)
+    public void urlWithInvalidProtocolMissingForwardSlashesTest() throws IOException {
+
+        Assert.assertFalse(Utilities.isValidURL("https:google.con"));
+
+    }
+
+    @Test(expectedExceptions = UnknownHostException.class)
+    public void urlWithUnknownHostTest() throws IOException {
+
+        Assert.assertFalse(Utilities.isValidURL("https://thisUrlDoesNotExitsInTheInternet.com"));
 
     }
 
