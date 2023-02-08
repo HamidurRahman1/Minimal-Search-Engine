@@ -4,7 +4,8 @@ import edu.bu.cs633.minimalsearchengine.models.dao.Admin;
 import edu.bu.cs633.minimalsearchengine.services.AdminService;
 import edu.bu.cs633.minimalsearchengine.services.PageService;
 import edu.bu.cs633.minimalsearchengine.services.WordService;
-import org.apache.catalina.core.ApplicationContext;
+
+import org.springframework.context.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
