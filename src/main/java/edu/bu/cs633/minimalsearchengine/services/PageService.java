@@ -1,6 +1,7 @@
 package edu.bu.cs633.minimalsearchengine.services;
 
 import edu.bu.cs633.minimalsearchengine.exceptions.customExceptions.ConstraintViolationException;
+import edu.bu.cs633.minimalsearchengine.exceptions.customExceptions.InvalidURLException;
 import edu.bu.cs633.minimalsearchengine.exceptions.customExceptions.NotFoundException;
 import edu.bu.cs633.minimalsearchengine.models.dao.Page;
 import edu.bu.cs633.minimalsearchengine.repositories.PageRepository;
@@ -24,7 +25,7 @@ public class PageService {
     public Set<Page> getPagesByQuery(final String query) {
 
         if (query == null || query.trim().length() == 0) {
-            throw new ConstraintViolationException("invalid query");
+            throw new ConstraintViolationException("invalid query or empty query");
         }
 
         Set<String> goodWords = Utilities.cleanWordsFromQuery(query);
@@ -44,5 +45,16 @@ public class PageService {
 
     public Page save(final Page page) {
         return pageRepository.save(page);
+    }
+
+    public Set<Page> getMatchingURLsIfAny(final String url) {
+
+        if (url == null || url.trim().length() == 0) {
+            throw new InvalidURLException("given url is invalid.");
+        }
+
+        final String hostPath = "%" + new Page(url.trim()).getHostAndPath() + "%";
+
+        return pageRepository.findByUrlLikeIgnoreCase(hostPath);
     }
 }

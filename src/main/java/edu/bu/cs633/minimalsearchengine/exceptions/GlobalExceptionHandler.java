@@ -1,12 +1,10 @@
 package edu.bu.cs633.minimalsearchengine.exceptions;
 
-import edu.bu.cs633.minimalsearchengine.exceptions.customExceptions.ConstraintViolationException;
-import edu.bu.cs633.minimalsearchengine.exceptions.customExceptions.NotFoundException;
-import edu.bu.cs633.minimalsearchengine.exceptions.customExceptions.PasswordDidNotMatchException;
-import edu.bu.cs633.minimalsearchengine.exceptions.customExceptions.UserNameNotFoundException;
+import edu.bu.cs633.minimalsearchengine.exceptions.customExceptions.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -45,5 +43,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(value = InvalidURLException.class)
+    public ResponseEntity<MSEAPIErrorResponse> invalidURLExceptionHandler(InvalidURLException ex) {
+        MSEAPIErrorResponse errorResponse = new MSEAPIErrorResponse(LocalDateTime.now(), ex.getErrorMessage(), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = MissingServletRequestParameterException.class)
+    public ResponseEntity<MSEAPIErrorResponse> missingParams(MissingServletRequestParameterException ex) {
+        MSEAPIErrorResponse errorResponse = new MSEAPIErrorResponse(LocalDateTime.now(), ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
 
 }
