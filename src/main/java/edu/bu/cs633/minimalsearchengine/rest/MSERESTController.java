@@ -38,12 +38,13 @@ public class MSERESTController {
     }
 
     @GetMapping(value = "/admin/{adminUsername}/crawl")
-    public ResponseEntity<Void> crawlPages(@NotEmpty @NotBlank @NotNull @PathVariable String adminUsername,
-                                           @NotEmpty @NotBlank @NotNull @RequestParam(name = "url") String url) {
+    public ResponseEntity<String> crawlPages(@NotEmpty @NotBlank @NotNull @PathVariable String adminUsername,
+                                             @NotEmpty @NotBlank @NotNull @RequestParam(name = "url") String url) {
 
-        // TBI
+        adminService.crawlPages(adminUsername, url);
 
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>("Crawling and extraction of data has been submitted " +
+                "by admin: " + adminUsername +", for url=" + url, HttpStatus.OK);
     }
 
     @GetMapping(value = "/admin/{adminUsername}/indexingHistories", produces = MediaType.APPLICATION_JSON_VALUE)

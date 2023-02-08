@@ -4,11 +4,16 @@ import edu.bu.cs633.minimalsearchengine.exceptions.customExceptions.*;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -53,6 +58,29 @@ public class GlobalExceptionHandler {
     public ResponseEntity<MSEAPIErrorResponse> missingParams(MissingServletRequestParameterException ex) {
         MSEAPIErrorResponse errorResponse = new MSEAPIErrorResponse(LocalDateTime.now(), ex.getMessage(), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = ExistingIndexedURLException.class)
+    public ResponseEntity<MSEAPIErrorResponse> pageAlreadyExistsExceptionHandler(ExistingIndexedURLException url) {
+        MSEAPIErrorResponse errorResponse = new MSEAPIErrorResponse(LocalDateTime.now(), url.getErrorMessage(), HttpStatus.CONFLICT.value());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<MSEAPIErrorResponse> typeMismatchHandler(MethodArgumentTypeMismatchException typeMismatch) {
+        MSEAPIErrorResponse errorResponse = new MSEAPIErrorResponse(LocalDateTime.now(), typeMismatch.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public ResponseEntity<MSEAPIErrorResponse> argumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
+        List<String> errors = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(new MSEAPIErrorResponse(LocalDateTime.now(), errors.toString(), HttpStatus.BAD_REQUEST.value()), HttpStatus.BAD_REQUEST);
     }
 
 }

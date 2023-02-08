@@ -52,7 +52,7 @@ public class MSEWebCrawler {
     }
 
     /**
-     * Finds 4 additional URLs from the requested URL which needs to be crawled.
+     * Finds 2 additional URLs from the requested URL which needs to be crawled.
      * @return A set of Pages with URLs which needs to be crawled.
      * @throws IOException occurs when tries to read the URL
      */
