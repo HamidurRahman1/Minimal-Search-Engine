@@ -1,6 +1,8 @@
 package edu.bu.cs633.minimalsearchengine.asyncjob;
 
+import edu.bu.cs633.minimalsearchengine.crawler.MSEWebCrawler;
 import edu.bu.cs633.minimalsearchengine.models.dao.Admin;
+import edu.bu.cs633.minimalsearchengine.models.dao.Page;
 import edu.bu.cs633.minimalsearchengine.services.AdminService;
 import edu.bu.cs633.minimalsearchengine.services.PageService;
 import edu.bu.cs633.minimalsearchengine.services.WordService;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
 import java.util.logging.Logger;
 
 @Service
@@ -21,6 +24,8 @@ public class AsyncJobServiceImpl implements AsyncJobService {
 
     private final WordService wordService;
 
+    private static final Logger logger = Logger.getLogger(AsyncJobServiceImpl.class.getName());
+
     @Autowired
     public AsyncJobServiceImpl(ApplicationContext applicationContext, AdminService adminService,
                                PageService pageService, WordService wordService) {
@@ -31,15 +36,29 @@ public class AsyncJobServiceImpl implements AsyncJobService {
         this.wordService = wordService;
     }
 
-    private static final Logger logger = Logger.getLogger(AsyncJobServiceImpl.class.getName());
-
     @Override
     @Async(value = "threadPoolTaskExecutor")
     public void crawl(final Admin admin, final String url) {
 
         logger.info("Job started to crawl URL= " + url + " by " + admin.getUsername());
 
-        // TBI
+        MSEWebCrawler MSEWebCrawler = applicationContext.getBean(MSEWebCrawler.class);
+        MSEWebCrawler.setUrl(url);
+
+        try {
+            Set<Page> pages = MSEWebCrawler.crawl();
+
+            pages.forEach(page -> {
+                Page updatedPage = pageService.save(page);
+                wordService.saveAllWords(page.getWords());
+                adminService.updateIndexingHistory(admin.getAdminId(), updatedPage.getPageId());
+            });
+
+            logger.info("Indexing have been updated by " + admin.getUsername() + " with " + pages.size()  + " urls.");
+        }
+        catch(Exception ex) {
+            logger.severe(ex.getMessage());
+        }
 
         logger.info("Job finished.");
     }

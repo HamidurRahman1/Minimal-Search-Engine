@@ -97,4 +97,9 @@ public class AdminService {
         asyncJobService.crawl(admin, url);
     }
 
+    public int updateIndexingHistory(final Integer adminId, final Integer pageId) {
+
+        return adminRepository.updateIndexingHistory(adminId, pageId);
+    }
+
 }
