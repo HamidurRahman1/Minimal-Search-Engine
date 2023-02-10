@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Set;
 
 @Validated
@@ -54,7 +55,7 @@ public class MSERESTController {
     }
 
     @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Set<Page>> getAllPagesByQuery(@NotEmpty @RequestParam(name = "query") String query) {
+    public ResponseEntity<List<Page>> getAllPagesByQuery(@NotEmpty @RequestParam(name = "query") String query) {
 
         return new ResponseEntity<>(pageService.getPagesByQuery(query), HttpStatus.OK);
     }
