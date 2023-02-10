@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Repository
@@ -21,7 +22,7 @@ public interface PageRepository extends CrudRepository<Page, Integer> {
     Set<Page> findByUrlLikeIgnoreCase(String url);
 
     @Query(nativeQuery = true,
-            value = "select page_id, title, url from pages where page_id in " +
-                    "(select page_id from words where lower(word) in :words order by frequency desc)")
-    Set<Page> getPagesByWords(@Param("words") Collection<String> words);
+            value = "select p.page_id, p.title, p.url from pages p join words w on p.page_id = w.page_id " +
+                    "where lower(w.word) in :words order by w.frequency desc")
+    List<Page> getPagesByWords(@Param("words") Collection<String> words);
 }
