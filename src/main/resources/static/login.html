@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Minimal Search Engine</title>
+    <title>Login</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <link rel="icon" href="logos/logo_2.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,27 +13,20 @@
 </head>
 <body>
 <div class="container">
-    <div>
-        <a href="login.html" class="admin-login">Admin Login</a>
-        <div class="image-search">
-            <Img class="main-page-logo" src="logos/logo.png" alt="mse logo"></Img>
-        </div>
-        <div class="main-name">
-            <h1>Minimal Search Engine</h1>
-        </div>
-    </div>
-
-    <form action="" id="form" autocomplete="on">
-        <div class="form-group">
-            <label for="search">
-                <input type="text" id="search" class="form-control" placeholder="Type your search ...">
+    <div class="form-position">
+        <form class="form" id="login-form" action="">
+            <img src="logos/logo.png" alt="mse logo">
+            <h1>Login</h1>
+            <label for="username">
+                <input type="text" name="username" placeholder="Enter Username" id="username">
             </label>
-        </div>
-    </form>
-
-    <div id="result"></div>
+            <label for="userpassword">
+                <input type="password" name="userpassword" placeholder="Enter password" id="userpassword">
+            </label>
+            <input type="submit" name="usersubmit" value="login" id="usersubmit">
+        </form>
+    </div>
 </div>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<script src="script.js"></script>
 </html>
