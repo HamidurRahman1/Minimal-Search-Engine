@@ -1,0 +1,44 @@
+* {
+    font-family: 'Kameron', serif;
+}
+
+::placeholder {
+    font-family: 'Kameron', serif;
+}
+
+.image-search {
+    display: flex;
+    justify-content: center;
+}
+
+.main-name {
+    display: flex;
+    justify-content: center;
+}
+
+.form-group {
+    display: flex;
+    justify-content: center;
+}
+
+#search {
+    background-color: #FAEFFF;
+    border: none;
+    height: 30px;
+    width: 960px;
+}
+
+#result {
+    margin-top: 30px;
+}
+
+.admin-login {
+    text-decoration: none;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.main-page-logo {
+    height: 100px;
+    width: 100px;
+}
