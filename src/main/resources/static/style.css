@@ -21,18 +21,23 @@
     justify-content: center;
 }
 
-#search {
+#search, #url-search {
     background-color: #FAEFFF;
     border: none;
     height: 30px;
     width: 960px;
 }
 
-#result {
+#result, #crawl-response {
     margin-top: 30px;
 }
 
-.admin-login {
+#crawl-response {
+    display: flex;
+    justify-content: center;
+}
+
+.admin-login, #admin-logout, .home {
     text-decoration: none;
     display: flex;
     justify-content: flex-end;
