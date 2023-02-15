@@ -22,7 +22,8 @@ public interface PageRepository extends CrudRepository<Page, Integer> {
     Set<Page> findByUrlLikeIgnoreCase(String url);
 
     @Query(nativeQuery = true,
-            value = "select p.page_id, p.title, p.url from pages p join words w on p.page_id = w.page_id " +
-                    "where lower(w.word) in :words order by w.frequency desc")
+            value = "select distinct p.page_id, p.title, p.url, max(w.frequency) as frequency from pages p " +
+                    "join words w on p.page_id = w.page_id where lower(w.word) in :words " +
+                    "group by p.page_id, p.title, p.url order by frequency desc")
     List<Page> getPagesByWords(@Param("words") Collection<String> words);
 }

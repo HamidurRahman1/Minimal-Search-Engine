@@ -1,5 +1,6 @@
 package edu.bu.cs633.minimalsearchengine.configs;
 
+import edu.bu.cs633.minimalsearchengine.asyncjob.AsyncJobServiceImpl;
 import edu.bu.cs633.minimalsearchengine.crawler.MSEWebCrawler;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -9,6 +10,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 @Configuration
 public class BeanConfiguration {
@@ -32,6 +36,13 @@ public class BeanConfiguration {
         executor.initialize();
 
         return executor;
+    }
+
+    @Bean
+    public Logger logger() {
+        Logger logger = Logger.getLogger("ROOT");
+        logger.addHandler(new StreamHandler(System.out, new SimpleFormatter()));
+        return logger;
     }
 
 }
