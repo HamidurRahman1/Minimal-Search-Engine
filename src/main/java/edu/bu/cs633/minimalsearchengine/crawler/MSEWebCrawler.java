@@ -23,7 +23,7 @@ public class MSEWebCrawler {
     public static final int MAX_LINKS = 3;
     private static final String DELIMITERS = "[\\s\\W]+";
 
-    private static final Logger logger = Logger.getLogger(MSEWebCrawler.class.toString());
+    private static final Logger logger = Logger.getLogger("ROOT");
 
     public MSEWebCrawler() {
     }
